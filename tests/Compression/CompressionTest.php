@@ -12,11 +12,6 @@ use Utopia\Compression\Compression;
 
 class CompressionTest extends TestCase
 {
-    /**
-     * @var Brotli
-     */
-    protected $object = null;
-
     public function testFromName()
     {
         $this->assertEquals(new Brotli(), Compression::fromName('brotli'));
