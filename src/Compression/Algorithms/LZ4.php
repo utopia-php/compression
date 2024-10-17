@@ -79,7 +79,7 @@ class LZ4 extends Compression
 
     /**
      * Check if the algorithm is supported.
-     * 
+     *
      * @return bool
      */
     public static function isSupported(): bool

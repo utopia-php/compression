@@ -3,12 +3,12 @@
 namespace Utopia\Tests\Compression;
 
 use PHPUnit\Framework\TestCase;
-use Utopia\Compression\Compression;
 use Utopia\Compression\Algorithms\Brotli;
+use Utopia\Compression\Algorithms\GZIP;
 use Utopia\Compression\Algorithms\Snappy;
 use Utopia\Compression\Algorithms\XZ;
 use Utopia\Compression\Algorithms\Zstd;
-use Utopia\Compression\Algorithms\GZIP;
+use Utopia\Compression\Compression;
 
 class CompressionTest extends TestCase
 {

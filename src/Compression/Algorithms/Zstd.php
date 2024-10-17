@@ -79,11 +79,11 @@ class Zstd extends Compression
 
     /**
      * Check if the algorithm is supported.
-     * 
+     *
      * @return bool
      */
     public static function isSupported(): bool
     {
         return \function_exists('zstd_compress');
-    }   
+    }
 }

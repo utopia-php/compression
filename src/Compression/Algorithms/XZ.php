@@ -17,8 +17,7 @@ class XZ extends Compression
     /**
      * Compress.
      *
-     * @param string $data
-     *
+     * @param  string  $data
      * @return string
      */
     public function compress(string $data): string
@@ -29,8 +28,7 @@ class XZ extends Compression
     /**
      * Decompress.
      *
-     * @param string $data
-     *
+     * @param  string  $data
      * @return string
      */
     public function decompress(string $data): string
@@ -40,7 +38,7 @@ class XZ extends Compression
 
     /**
      * Check if the algorithm is supported.
-     * 
+     *
      * @return bool
      */
     public static function isSupported(): bool

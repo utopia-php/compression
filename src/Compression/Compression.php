@@ -2,17 +2,22 @@
 
 namespace Utopia\Compression;
 
-use Utopia\Compression\Algorithms;
-
 abstract class Compression
 {
     public const IDENTITY = 'identity';
+
     public const BROTLI = 'brotli';
+
     public const DEFLATE = 'deflate';
+
     public const GZIP = 'gzip';
+
     public const LZ4 = 'lz4';
+
     public const SNAPPY = 'snappy';
+
     public const XZ = 'xz';
+
     public const ZSTD = 'zstd';
 
     /**
@@ -24,17 +29,17 @@ abstract class Compression
 
     /**
      * Return the id of compression algorithm used in content-encoding and accept-encoding headers.
-     * 
+     *
      * @return string
      */
-    function getContentEncoding(): string
+    public function getContentEncoding(): string
     {
         return strtolower($this->getName());
     }
 
     /**
      * Compress data.
-     * 
+     *
      * @param $data
      * @return string
      */
@@ -42,7 +47,7 @@ abstract class Compression
 
     /**
      * Decompress data.
-     * 
+     *
      * @param $data
      * @return string
      */
@@ -50,15 +55,15 @@ abstract class Compression
 
     /**
      * Return true if the compression algorithm is supported.
-     * 
+     *
      * @return bool
      */
     abstract public static function isSupported(): bool;
 
     /**
      * Create a compression algorithm from the name.
-     * 
-     * @param string $name
+     *
+     * @param  string  $name
      */
     public static function fromName(string $name): ?Compression
     {
@@ -87,13 +92,12 @@ abstract class Compression
     }
 
     /**
-     * @param string $acceptEncoding String in format <encoding-method1>[;q=<weight>], <encoding-method2>[;q=<weight>], ...
+     * @param  string  $acceptEncoding String in format <encoding-method1>[;q=<weight>], <encoding-method2>[;q=<weight>], ...
      *  Where:
      *      - <encoding-method> is the name of an encoding algorithm
      *      - [;q=<weight>] is an optional quality value from 0 to 1, indicating preference (1 being the highest)
-     * @param array $supported List of supported compression algorithms, if not provided, the default list will be used
+     * @param  array  $supported List of supported compression algorithms, if not provided, the default list will be used
      *  The default list is [br, gzip, deflate, identity]
-     * 
      * @return Compression|null
      */
     public static function fromAcceptEncoding(string $acceptEncoding, array $supported = []): ?Compression

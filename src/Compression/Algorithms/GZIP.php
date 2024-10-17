@@ -43,7 +43,7 @@ class GZIP extends Compression
 
     /**
      * Check if the algorithm is supported.
-     * 
+     *
      * @return bool
      */
     public static function isSupported(): bool
