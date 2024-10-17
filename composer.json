@@ -16,19 +16,19 @@
         "format": "./vendor/bin/pint"
     },
     "require": {
-        "ext-fileinfo": "*",
-        "ext-zlib": "*",
-        "ext-zstd": "*",
-        "ext-xz": "*",
-        "ext-brotli": "*",
-        "ext-lz4": "*",
-        "ext-snappy": "*",
         "php": ">=8.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.3",
         "vimeo/psalm": "4.0.1",
         "laravel/pint": "1.2.*"
+    },
+    "suggests": {
+        "ext-zlib": "Needed to use the GZIP adapter",
+        "ext-xz": "Needed to use the XZ adapter",
+        "ext-brotli": "Needed to use the Brotli adapter",
+        "ext-lz4": "Needed to use the LZ4 adapter",
+        "ext-snappy": "Needed to use the Snappy adapter"
     },
     "minimum-stability": "dev"
 }
