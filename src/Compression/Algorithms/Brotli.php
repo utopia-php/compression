@@ -6,9 +6,9 @@ use Utopia\Compression\Compression;
 
 class Brotli extends Compression
 {
-    protected int $level = 6; //BROTLI_COMPRESS_LEVEL_DEFAULT;
+    protected int $level = BROTLI_COMPRESS_LEVEL_DEFAULT;
 
-    protected int $mode = 0; //BROTLI_GENERIC;
+    protected int $mode = BROTLI_GENERIC;
 
     /**
      * @return string
@@ -35,7 +35,7 @@ class Brotli extends Compression
      */
     public function useGenericMode(): void
     {
-        $this->mode = 0; //BROTLI_GENERIC;
+        $this->mode = BROTLI_GENERIC;
     }
 
     /**
@@ -47,7 +47,7 @@ class Brotli extends Compression
      */
     public function useTextMode(): void
     {
-        $this->mode = 1; //BROTLI_GENERIC;
+        $this->mode = BROTLI_GENERIC;
     }
 
     /**
@@ -59,7 +59,7 @@ class Brotli extends Compression
      */
     public function useFontMode(): void
     {
-        $this->mode = 2; //BROTLI_GENERIC;
+        $this->mode = BROTLI_GENERIC;
     }
 
     /**
@@ -72,8 +72,8 @@ class Brotli extends Compression
      */
     public function setLevel(int $level): void
     {
-        $min = 1; //BROTLI_COMPRESS_LEVEL_MIN;
-        $max = 9; //BROTLI_COMPRESS_LEVEL_MAX;
+        $min = BROTLI_COMPRESS_LEVEL_MIN;
+        $max = BROTLI_COMPRESS_LEVEL_MAX;
         if ($level < $min || $level > $max) {
             throw new \InvalidArgumentException("Level must be between {$min} and {$max}");
         }
