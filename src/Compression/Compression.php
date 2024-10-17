@@ -22,8 +22,8 @@ abstract class Compression
 
     public function __construct()
     {
-        if (!self::isSupported()) {
-            throw new \Exception('Compression algorithm' . $this->getName() . ' is not supported, missing extension');
+        if (! self::isSupported()) {
+            throw new \Exception('Compression algorithm'.$this->getName().' is not supported, missing extension');
         }
     }
 
