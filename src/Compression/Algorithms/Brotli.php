@@ -19,6 +19,16 @@ class Brotli extends Compression
     }
 
     /**
+     * Return the id of compression algorithm used in content-encoding and accept-encoding headers.
+     * 
+     * @return string
+     */
+    public function getContentEncoding(): string 
+    {
+        return 'br';
+    }
+
+    /**
      * Get the compression level.
      *
      * @return int

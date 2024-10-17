@@ -23,6 +23,16 @@ abstract class Compression
     abstract public function getName(): string;
 
     /**
+     * Return the id of compression algorithm used in content-encoding and accept-encoding headers.
+     * 
+     * @return string
+     */
+    function getContentEncoding(): string
+    {
+        return strtolower($this->getName());
+    }
+
+    /**
      * Compress data.
      * 
      * @param $data
