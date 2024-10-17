@@ -16,6 +16,7 @@ class LZ4 extends Compression
 
     public function __construct(int $level = 0)
     {
+        parent::__construct();
         $this->level = $level;
     }
 

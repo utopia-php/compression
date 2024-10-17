@@ -16,6 +16,7 @@ class Zstd extends Compression
 
     public function __construct(int $level = 3)
     {
+        parent::__construct();
         $this->level = $level;
     }
 

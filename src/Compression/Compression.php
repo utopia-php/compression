@@ -20,6 +20,13 @@ abstract class Compression
 
     public const ZSTD = 'zstd';
 
+    public function __construct()
+    {
+        if (!self::isSupported()) {
+            throw new \Exception('Compression algorithm' . $this->getName() . ' is not supported, missing extension');
+        }
+    }
+
     /**
      * Return the name of compression algorithm.
      *
