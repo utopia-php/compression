@@ -36,7 +36,7 @@ jobs:
       run: |
         docker compose logs tests
         docker ps
-        docker compose exec -T tests ls -la /usr/src/code/vendor/bin
+        docker compose exec -T tests ls -la /usr/src/code
         docker compose exec -T tests pwd
     
     - name: Unit Tests
