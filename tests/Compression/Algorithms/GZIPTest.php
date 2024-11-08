@@ -42,7 +42,7 @@ class GZIPTest extends TestCase
 
     public function testCompressDecompressWithLargeText()
     {
-        $demo = \file_get_contents(__DIR__.'/../../../resources/disk-a/lorem.txt');
+        $demo = \file_get_contents(__DIR__.'/../../resources/disk-a/lorem.txt');
         $demoSize = mb_strlen($demo, '8bit');
 
         $data = $this->object->compress($demo);
@@ -61,7 +61,7 @@ class GZIPTest extends TestCase
 
     public function testCompressDecompressWithJPGImage()
     {
-        $demo = \file_get_contents(__DIR__.'/../../../resources/disk-a/kitten-1.jpg');
+        $demo = \file_get_contents(__DIR__.'/../../resources/disk-a/kitten-1.jpg');
         $demoSize = mb_strlen($demo, '8bit');
 
         $data = $this->object->compress($demo);
@@ -80,7 +80,7 @@ class GZIPTest extends TestCase
 
     public function testCompressDecompressWithPNGImage()
     {
-        $demo = \file_get_contents(__DIR__.'/../../../resources/disk-b/kitten-1.png');
+        $demo = \file_get_contents(__DIR__.'/../../resources/disk-b/kitten-1.png');
         $demoSize = mb_strlen($demo, '8bit');
 
         $data = $this->object->compress($demo);
