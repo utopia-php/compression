@@ -113,7 +113,7 @@ abstract class Compression
         if (empty($supported)) {
             $supported = [
                 self::BROTLI => Algorithms\Brotli::isSupported(),
-                self::GZIP => Algorithms\Gzip::isSupported(),
+                self::GZIP => Algorithms\GZIP::isSupported(),
                 self::DEFLATE => Algorithms\Deflate::isSupported(),
                 self::IDENTITY => true,
             ];

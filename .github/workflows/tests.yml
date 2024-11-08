@@ -1,0 +1,18 @@
+name: "Tests"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on: [pull_request]
+jobs:
+  build:
+    name: Build & Unit
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repo
+      uses: actions/checkout@v3
+    
+    - name: Unit Tests
+      run: docker compose exec -T tests vendor/bin/phpunit --configuration phpunit.xml --debug --testsuite unit
