@@ -12,20 +12,18 @@ jobs:
 
     steps:
     - name: Checkout Repo
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
     
     - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v2
+      uses: docker/setup-buildx-action@v3
 
     - name: Build image
-      uses: docker/build-push-action@v3
+      uses: docker/build-push-action@v6
       with:
         context: .
         push: false
         load: true
-        tags: storage-dev
-        cache-from: type=gha
-        cache-to: type=gha,mode=max
+        tags: storage-devs
     
     - name: Start storage
       run: |
