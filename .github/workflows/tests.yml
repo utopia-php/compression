@@ -36,6 +36,8 @@ jobs:
       run: |
         docker compose logs tests
         docker ps
+        docker compose exec -T tests ls -la /usr/src/code/vendor/bin
+        docker compose exec -T tests pwd
     
     - name: Unit Tests
       run: docker compose exec -T tests vendor/bin/phpunit --configuration phpunit.xml --debug --testsuite unit
