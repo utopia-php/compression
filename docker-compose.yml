@@ -8,3 +8,4 @@ services:
       context: .
     volumes:
       - ./:/usr/src/code
+      - /usr/src/code/vendor

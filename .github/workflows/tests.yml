@@ -30,14 +30,6 @@ jobs:
     - name: Start storage
       run: |
         docker compose up -d
-        sleep 10
-
-    - name: Doctor
-      run: |
-        docker compose logs tests
-        docker ps
-        docker compose exec -T tests ls -la /usr/src/code
-        docker compose exec -T tests pwd
     
     - name: Unit Tests
       run: docker compose exec -T tests vendor/bin/phpunit --configuration phpunit.xml --debug --testsuite unit
