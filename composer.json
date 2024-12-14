@@ -12,8 +12,8 @@
         "psr-4": {"Utopia\\Tests\\Compression\\":"tests/Compression"}
     },
     "scripts": {
-        "lint": "./vendor/bin/pint --test",
-        "format": "./vendor/bin/pint"
+        "lint": "./vendor/bin/pint --test --config pint.json",
+        "format": "./vendor/bin/pint --config pint.json"
     },
     "require": {
         "php": ">=8.0"
