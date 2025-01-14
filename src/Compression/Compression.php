@@ -112,6 +112,7 @@ abstract class Compression
 
         if (empty($supported)) {
             $supported = [
+                self::ZSTD => Algorithms\Zstd::isSupported(),
                 self::BROTLI => Algorithms\Brotli::isSupported(),
                 self::GZIP => Algorithms\GZIP::isSupported(),
                 self::DEFLATE => Algorithms\Deflate::isSupported(),
