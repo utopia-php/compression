@@ -4,6 +4,11 @@ namespace Utopia\Compression;
 
 abstract class Compression
 {
+    public const NONE = 'none';
+
+    /**
+     * @deprecated Use Compression::NONE instead.
+     */
     public const IDENTITY = 'identity';
 
     public const BROTLI = 'brotli';
@@ -89,6 +94,7 @@ abstract class Compression
                 return new Algorithms\XZ();
             case Compression::ZSTD:
                 return new Algorithms\Zstd();
+            case Compression::NONE:
             case Compression::IDENTITY:
             default:
                 return null;
@@ -101,7 +107,7 @@ abstract class Compression
      *      - <encoding-method> is the name of an encoding algorithm
      *      - [;q=<weight>] is an optional quality value from 0 to 1, indicating preference (1 being the highest)
      * @param  array  $supported List of supported compression algorithms, if not provided, the default list will be used
-     *  The default list is [br, gzip, deflate, identity]
+     *  The default list is [zstd, br, gzip, deflate, none, identity]
      * @return Compression|null
      */
     public static function fromAcceptEncoding(string $acceptEncoding, array $supported = []): ?Compression
@@ -116,16 +122,27 @@ abstract class Compression
                 self::BROTLI => Algorithms\Brotli::isSupported(),
                 self::GZIP => Algorithms\GZIP::isSupported(),
                 self::DEFLATE => Algorithms\Deflate::isSupported(),
+                self::NONE => true,
                 self::IDENTITY => true,
             ];
+        } else {
+            // Convert flat array to associative array
+            if (array_is_list($supported)) {
+                $supported = \array_fill_keys($supported, true);
+            }
         }
+
+        // Map encoding aliases to canonical names
+        $aliases = [
+            'br' => self::BROTLI,
+        ];
 
         $encodings = \array_map('trim', \explode(',', $acceptEncoding));
         $encodings = \array_map('strtolower', $encodings);
 
-        $encodings = \array_map(function ($encoding) {
+        $encodings = \array_map(function ($encoding) use ($aliases) {
             $parts = \explode(';', $encoding);
-            $encoding = $parts[0];
+            $encoding = $aliases[$parts[0]] ?? $parts[0];
             $quality = 1.0;
 
             if (isset($parts[1])) {
@@ -139,7 +156,7 @@ abstract class Compression
         }, $encodings);
 
         $encodings = \array_filter($encodings, function ($encoding) use ($supported) {
-            return \in_array($encoding['encoding'], $supported);
+            return isset($supported[$encoding['encoding']]) && $supported[$encoding['encoding']];
         });
 
         if (empty($encodings)) {
@@ -147,7 +164,7 @@ abstract class Compression
         }
 
         usort($encodings, function ($a, $b) {
-            return $a['quality'] <=> $b['quality'];
+            return $b['quality'] <=> $a['quality'];
         });
 
         return self::fromName($encodings[0]['encoding']);

@@ -1,4 +1,4 @@
-FROM composer:2.0 as composer
+FROM composer:2.0 AS composer
 
 ARG TESTING=false
 ENV TESTING=$TESTING
@@ -15,7 +15,7 @@ RUN composer update \
   --no-scripts \
   --prefer-dist
 
-FROM php:8.0-cli-alpine as compile
+FROM php:8.1-cli-alpine AS compile
 
 ENV PHP_ZSTD_VERSION="master"
 ENV PHP_BROTLI_VERSION="7ae4fcd8b81a65d7521c298cae49af386d1ea4e3"
@@ -42,7 +42,7 @@ RUN git clone --recursive --depth 1 --branch $PHP_ZSTD_VERSION https://github.co
   && make && make install
 
 ## Brotli Extension
-FROM compile as brotli
+FROM compile AS brotli
 RUN git clone https://github.com/kjdev/php-ext-brotli.git \
   && cd php-ext-brotli \
   && git reset --hard $PHP_BROTLI_VERSION \
@@ -69,7 +69,7 @@ RUN git clone --recursive https://github.com/kjdev/php-ext-snappy.git \
   && make && make install
 
 ## Xz Extension
-FROM compile as xz
+FROM compile AS xz
 RUN wget https://tukaani.org/xz/xz-${PHP_XZ_VERSION}.tar.xz -O xz.tar.xz \
   && tar -xJf xz.tar.xz \
   && rm xz.tar.xz \
@@ -87,7 +87,7 @@ RUN git clone https://github.com/codemasher/php-ext-xz.git --branch ${PHP_EXT_XZ
   && ./configure \
   && make && make install
 
-FROM compile as final
+FROM compile AS final
 
 LABEL maintainer="team@appwrite.io"
 
@@ -104,11 +104,11 @@ RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
   && echo "memory_limit=1024M" >> $PHP_INI_DIR/php.ini
 
 COPY --from=composer /usr/local/src/vendor /usr/src/code/vendor
-COPY --from=zstd /usr/local/lib/php/extensions/no-debug-non-zts-20200930/zstd.so /usr/local/lib/php/extensions/no-debug-non-zts-20200930/
-COPY --from=brotli /usr/local/lib/php/extensions/no-debug-non-zts-20200930/brotli.so /usr/local/lib/php/extensions/no-debug-non-zts-20200930/
-COPY --from=lz4 /usr/local/lib/php/extensions/no-debug-non-zts-20200930/lz4.so /usr/local/lib/php/extensions/no-debug-non-zts-20200930/
-COPY --from=snappy /usr/local/lib/php/extensions/no-debug-non-zts-20200930/snappy.so /usr/local/lib/php/extensions/no-debug-non-zts-20200930/
-COPY --from=xz /usr/local/lib/php/extensions/no-debug-non-zts-20200930/xz.so /usr/local/lib/php/extensions/no-debug-non-zts-20200930/
+COPY --from=zstd /usr/local/lib/php/extensions/no-debug-non-zts-20210902/zstd.so /usr/local/lib/php/extensions/no-debug-non-zts-20210902/
+COPY --from=brotli /usr/local/lib/php/extensions/no-debug-non-zts-20210902/brotli.so /usr/local/lib/php/extensions/no-debug-non-zts-20210902/
+COPY --from=lz4 /usr/local/lib/php/extensions/no-debug-non-zts-20210902/lz4.so /usr/local/lib/php/extensions/no-debug-non-zts-20210902/
+COPY --from=snappy /usr/local/lib/php/extensions/no-debug-non-zts-20210902/snappy.so /usr/local/lib/php/extensions/no-debug-non-zts-20210902/
+COPY --from=xz /usr/local/lib/php/extensions/no-debug-non-zts-20210902/xz.so /usr/local/lib/php/extensions/no-debug-non-zts-20210902/
 
 # Add Source Code
 COPY . /usr/src/code
