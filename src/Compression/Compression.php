@@ -4,7 +4,12 @@ namespace Utopia\Compression;
 
 abstract class Compression
 {
-    public const IDENTITY = 'identity';
+    public const NONE = 'none';
+
+    /**
+     * @deprecated Use Compression::NONE instead.
+     */
+    public const IDENTITY = 'none';
 
     public const BROTLI = 'brotli';
 
@@ -89,7 +94,8 @@ abstract class Compression
                 return new Algorithms\XZ();
             case Compression::ZSTD:
                 return new Algorithms\Zstd();
-            case Compression::IDENTITY:
+            case Compression::NONE:
+            case 'identity':
             default:
                 return null;
         }
@@ -101,7 +107,7 @@ abstract class Compression
      *      - <encoding-method> is the name of an encoding algorithm
      *      - [;q=<weight>] is an optional quality value from 0 to 1, indicating preference (1 being the highest)
      * @param  array  $supported List of supported compression algorithms, if not provided, the default list will be used
-     *  The default list is [br, gzip, deflate, identity]
+     *  The default list is [zstd, br, gzip, deflate, none]
      * @return Compression|null
      */
     public static function fromAcceptEncoding(string $acceptEncoding, array $supported = []): ?Compression
@@ -116,7 +122,7 @@ abstract class Compression
                 self::BROTLI => Algorithms\Brotli::isSupported(),
                 self::GZIP => Algorithms\GZIP::isSupported(),
                 self::DEFLATE => Algorithms\Deflate::isSupported(),
-                self::IDENTITY => true,
+                self::NONE => true,
             ];
         }
 
