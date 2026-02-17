@@ -9,7 +9,7 @@ abstract class Compression
     /**
      * @deprecated Use Compression::NONE instead.
      */
-    public const IDENTITY = 'none';
+    public const IDENTITY = 'identity';
 
     public const BROTLI = 'brotli';
 
@@ -95,7 +95,7 @@ abstract class Compression
             case Compression::ZSTD:
                 return new Algorithms\Zstd();
             case Compression::NONE:
-            case 'identity':
+            case Compression::IDENTITY:
             default:
                 return null;
         }
@@ -107,7 +107,7 @@ abstract class Compression
      *      - <encoding-method> is the name of an encoding algorithm
      *      - [;q=<weight>] is an optional quality value from 0 to 1, indicating preference (1 being the highest)
      * @param  array  $supported List of supported compression algorithms, if not provided, the default list will be used
-     *  The default list is [zstd, br, gzip, deflate, none]
+     *  The default list is [zstd, br, gzip, deflate, none, identity]
      * @return Compression|null
      */
     public static function fromAcceptEncoding(string $acceptEncoding, array $supported = []): ?Compression
@@ -123,6 +123,7 @@ abstract class Compression
                 self::GZIP => Algorithms\GZIP::isSupported(),
                 self::DEFLATE => Algorithms\Deflate::isSupported(),
                 self::NONE => true,
+                self::IDENTITY => true,
             ];
         }
 
@@ -145,7 +146,7 @@ abstract class Compression
         }, $encodings);
 
         $encodings = \array_filter($encodings, function ($encoding) use ($supported) {
-            return \in_array($encoding['encoding'], $supported);
+            return isset($supported[$encoding['encoding']]) && $supported[$encoding['encoding']];
         });
 
         if (empty($encodings)) {
@@ -153,7 +154,7 @@ abstract class Compression
         }
 
         usort($encodings, function ($a, $b) {
-            return $a['quality'] <=> $b['quality'];
+            return $b['quality'] <=> $a['quality'];
         });
 
         return self::fromName($encodings[0]['encoding']);
