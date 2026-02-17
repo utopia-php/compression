@@ -125,14 +125,24 @@ abstract class Compression
                 self::NONE => true,
                 self::IDENTITY => true,
             ];
+        } else {
+            // Convert flat array to associative array
+            if (array_is_list($supported)) {
+                $supported = \array_fill_keys($supported, true);
+            }
         }
+
+        // Map encoding aliases to canonical names
+        $aliases = [
+            'br' => self::BROTLI,
+        ];
 
         $encodings = \array_map('trim', \explode(',', $acceptEncoding));
         $encodings = \array_map('strtolower', $encodings);
 
-        $encodings = \array_map(function ($encoding) {
+        $encodings = \array_map(function ($encoding) use ($aliases) {
             $parts = \explode(';', $encoding);
-            $encoding = $parts[0];
+            $encoding = $aliases[$parts[0]] ?? $parts[0];
             $quality = 1.0;
 
             if (isset($parts[1])) {
