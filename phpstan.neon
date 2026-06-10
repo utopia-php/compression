@@ -4,3 +4,9 @@ parameters:
     paths:
         - src
         - tests
+
+    excludePaths:
+        - tests/phpstan-stubs.php
+
+    scanFiles:
+        - tests/phpstan-stubs.php
