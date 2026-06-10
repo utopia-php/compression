@@ -64,7 +64,7 @@ class LZ4 extends Compression
      */
     public function compress(string $data): string
     {
-        return \lz4_compress($data, $this->level);
+        return lz4_compress($data, $this->level);
     }
 
     /**
@@ -75,7 +75,7 @@ class LZ4 extends Compression
      */
     public function decompress(string $data): string
     {
-        return \lz4_uncompress($data);
+        return lz4_uncompress($data);
     }
 
     /**

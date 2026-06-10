@@ -25,9 +25,7 @@ abstract class Compression
 
     public const ZSTD = 'zstd';
 
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     /**
      * Return the name of compression algorithm.
@@ -85,7 +83,7 @@ abstract class Compression
             case Compression::DEFLATE:
                 return new Algorithms\Deflate();
             case Compression::GZIP:
-                return new Algorithms\Gzip();
+                return new Algorithms\GZIP();
             case Compression::LZ4:
                 return new Algorithms\LZ4();
             case Compression::SNAPPY:
@@ -128,7 +126,7 @@ abstract class Compression
         } else {
             // Convert flat array to associative array
             if (array_is_list($supported)) {
-                $supported = \array_fill_keys($supported, true);
+                $supported = array_fill_keys($supported, true);
             }
         }
 
@@ -137,16 +135,16 @@ abstract class Compression
             'br' => self::BROTLI,
         ];
 
-        $encodings = \array_map('trim', \explode(',', $acceptEncoding));
-        $encodings = \array_map('strtolower', $encodings);
+        $encodings = array_map('trim', explode(',', $acceptEncoding));
+        $encodings = array_map('strtolower', $encodings);
 
-        $encodings = \array_map(function ($encoding) use ($aliases) {
-            $parts = \explode(';', $encoding);
+        $encodings = array_map(function ($encoding) use ($aliases) {
+            $parts = explode(';', $encoding);
             $encoding = $aliases[$parts[0]] ?? $parts[0];
             $quality = 1.0;
 
             if (isset($parts[1])) {
-                $quality = \floatval(\str_replace('q=', '', $parts[1]));
+                $quality = \floatval(str_replace('q=', '', $parts[1]));
             }
 
             return [
@@ -155,7 +153,7 @@ abstract class Compression
             ];
         }, $encodings);
 
-        $encodings = \array_filter($encodings, function ($encoding) use ($supported) {
+        $encodings = array_filter($encodings, function ($encoding) use ($supported) {
             return isset($supported[$encoding['encoding']]) && $supported[$encoding['encoding']];
         });
 

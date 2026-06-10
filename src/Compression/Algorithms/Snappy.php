@@ -22,7 +22,7 @@ class Snappy extends Compression
      */
     public function compress(string $data): string
     {
-        return \snappy_compress($data);
+        return snappy_compress($data);
     }
 
     /**
@@ -33,7 +33,7 @@ class Snappy extends Compression
      */
     public function decompress(string $data): string
     {
-        return \snappy_uncompress($data);
+        return snappy_uncompress($data);
     }
 
     /**

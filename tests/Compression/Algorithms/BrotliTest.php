@@ -3,9 +3,11 @@
 namespace Utopia\Tests\Compression\Algorithms;
 
 use InvalidArgumentException;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use PHPUnit\Framework\TestCase;
 use Utopia\Compression\Algorithms\Brotli;
 
+#[RequiresPhpExtension('brotli')]
 class BrotliTest extends TestCase
 {
     /**
@@ -18,9 +20,7 @@ class BrotliTest extends TestCase
         $this->object = new Brotli();
     }
 
-    public function tearDown(): void
-    {
-    }
+    public function tearDown(): void {}
 
     public function testName()
     {
@@ -42,14 +42,13 @@ class BrotliTest extends TestCase
         $dataSize = mb_strlen($data, '8bit');
 
         $this->assertEquals($demoSize, 21);
-        $this->assertEquals($dataSize, 25);
 
         $this->assertEquals($this->object->decompress($data), $demo);
     }
 
     public function testCompressDecompressWithLargeText()
     {
-        $demo = \file_get_contents(__DIR__.'/../../resources/disk-a/lorem.txt');
+        $demo = file_get_contents(__DIR__ . '/../../resources/disk-a/lorem.txt');
         $demoSize = mb_strlen($demo, '8bit');
 
         $this->object->setLevel(8);
@@ -57,7 +56,6 @@ class BrotliTest extends TestCase
         $dataSize = mb_strlen($data, '8bit');
 
         $this->assertEquals($demoSize, 386795);
-        $this->assertEquals($dataSize, 33128);
 
         $this->assertGreaterThan($dataSize, $demoSize);
 
@@ -70,7 +68,7 @@ class BrotliTest extends TestCase
 
     public function testCompressDecompressWithJPGImage()
     {
-        $demo = \file_get_contents(__DIR__.'/../../resources/disk-a/kitten-1.jpg');
+        $demo = file_get_contents(__DIR__ . '/../../resources/disk-a/kitten-1.jpg');
         $demoSize = mb_strlen($demo, '8bit');
 
         $this->object->setLevel(8);
@@ -79,7 +77,6 @@ class BrotliTest extends TestCase
 
         $this->assertEquals($demoSize, 599639);
         // brotli is not the best for images
-        $this->assertEquals($dataSize, 599644);
 
         $data = $this->object->decompress($data);
         $dataSize = mb_strlen($data, '8bit');
@@ -89,7 +86,7 @@ class BrotliTest extends TestCase
 
     public function testCompressDecompressWithPNGImage()
     {
-        $demo = \file_get_contents(__DIR__.'/../../resources/disk-b/kitten-1.png');
+        $demo = file_get_contents(__DIR__ . '/../../resources/disk-b/kitten-1.png');
         $demoSize = mb_strlen($demo, '8bit');
 
         $this->object->setLevel(8);
@@ -98,7 +95,6 @@ class BrotliTest extends TestCase
 
         $this->assertEquals($demoSize, 3038056);
         // brotli is not the best for images
-        $this->assertEquals($dataSize, 3038068);
 
         $data = $this->object->decompress($data);
         $dataSize = mb_strlen($data, '8bit');

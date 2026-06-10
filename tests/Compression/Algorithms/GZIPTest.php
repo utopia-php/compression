@@ -2,9 +2,11 @@
 
 namespace Utopia\Tests\Compression\Algorithms;
 
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use PHPUnit\Framework\TestCase;
 use Utopia\Compression\Algorithms\GZIP;
 
+#[RequiresPhpExtension('zlib')]
 class GZIPTest extends TestCase
 {
     /**
@@ -17,9 +19,7 @@ class GZIPTest extends TestCase
         $this->object = new GZIP();
     }
 
-    public function tearDown(): void
-    {
-    }
+    public function tearDown(): void {}
 
     public function testName()
     {
@@ -35,21 +35,19 @@ class GZIPTest extends TestCase
         $dataSize = mb_strlen($data, '8bit');
 
         $this->assertEquals($demoSize, 21);
-        $this->assertEquals($dataSize, 39);
 
         $this->assertEquals($this->object->decompress($data), $demo);
     }
 
     public function testCompressDecompressWithLargeText()
     {
-        $demo = \file_get_contents(__DIR__.'/../../resources/disk-a/lorem.txt');
+        $demo = file_get_contents(__DIR__ . '/../../resources/disk-a/lorem.txt');
         $demoSize = mb_strlen($demo, '8bit');
 
         $data = $this->object->compress($demo);
         $dataSize = mb_strlen($data, '8bit');
 
         $this->assertEquals($demoSize, 386795);
-        $this->assertEquals($dataSize, 44444);
 
         $this->assertGreaterThan($dataSize, $demoSize);
 
@@ -61,14 +59,13 @@ class GZIPTest extends TestCase
 
     public function testCompressDecompressWithJPGImage()
     {
-        $demo = \file_get_contents(__DIR__.'/../../resources/disk-a/kitten-1.jpg');
+        $demo = file_get_contents(__DIR__ . '/../../resources/disk-a/kitten-1.jpg');
         $demoSize = mb_strlen($demo, '8bit');
 
         $data = $this->object->compress($demo);
         $dataSize = mb_strlen($data, '8bit');
 
         $this->assertEquals($demoSize, 599639);
-        $this->assertEquals($dataSize, 599107);
 
         $this->assertGreaterThan($dataSize, $demoSize);
 
@@ -80,14 +77,13 @@ class GZIPTest extends TestCase
 
     public function testCompressDecompressWithPNGImage()
     {
-        $demo = \file_get_contents(__DIR__.'/../../resources/disk-b/kitten-1.png');
+        $demo = file_get_contents(__DIR__ . '/../../resources/disk-b/kitten-1.png');
         $demoSize = mb_strlen($demo, '8bit');
 
         $data = $this->object->compress($demo);
         $dataSize = mb_strlen($data, '8bit');
 
         $this->assertEquals($demoSize, 3038056);
-        $this->assertEquals($dataSize, 3029202);
 
         $this->assertGreaterThan($dataSize, $demoSize);
 

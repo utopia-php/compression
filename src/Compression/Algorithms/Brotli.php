@@ -98,7 +98,7 @@ class Brotli extends Compression
      */
     public function compress(string $data): string
     {
-        return \brotli_compress($data, $this->getLevel(), $this->mode);
+        return brotli_compress($data, $this->getLevel(), $this->mode);
     }
 
     /**
@@ -109,7 +109,7 @@ class Brotli extends Compression
      */
     public function decompress(string $data): string
     {
-        return \brotli_uncompress($data);
+        return brotli_uncompress($data);
     }
 
     /**

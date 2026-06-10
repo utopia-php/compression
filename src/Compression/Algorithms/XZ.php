@@ -22,7 +22,7 @@ class XZ extends Compression
      */
     public function compress(string $data): string
     {
-        return \xzencode($data);
+        return xzencode($data);
     }
 
     /**
@@ -33,7 +33,7 @@ class XZ extends Compression
      */
     public function decompress(string $data): string
     {
-        return \xzdecode($data);
+        return xzdecode($data);
     }
 
     /**

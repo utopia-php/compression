@@ -27,7 +27,7 @@ class GZIP extends Compression
      */
     public function compress(string $data): string
     {
-        return \gzencode($data);
+        return gzencode($data);
     }
 
     /**
@@ -38,7 +38,7 @@ class GZIP extends Compression
      */
     public function decompress(string $data): string
     {
-        return \gzdecode($data);
+        return gzdecode($data);
     }
 
     /**

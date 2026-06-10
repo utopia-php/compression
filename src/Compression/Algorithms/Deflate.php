@@ -24,7 +24,7 @@ class Deflate extends Compression
      */
     public function compress(string $data): string
     {
-        return \gzdeflate($data, $this->level);
+        return gzdeflate($data, $this->level);
     }
 
     /**
@@ -35,7 +35,7 @@ class Deflate extends Compression
      */
     public function decompress(string $data): string
     {
-        return \gzinflate($data);
+        return gzinflate($data);
     }
 
     /**

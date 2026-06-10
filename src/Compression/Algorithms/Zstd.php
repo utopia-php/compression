@@ -64,7 +64,7 @@ class Zstd extends Compression
      */
     public function compress(string $data): string
     {
-        return \zstd_compress($data, $this->level);
+        return zstd_compress($data, $this->level);
     }
 
     /**
@@ -75,7 +75,7 @@ class Zstd extends Compression
      */
     public function decompress(string $data): string
     {
-        return \zstd_uncompress($data);
+        return zstd_uncompress($data);
     }
 
     /**
