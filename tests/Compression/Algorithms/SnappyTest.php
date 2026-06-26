@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Utopia\Tests\Compression\Algorithms;
 
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
@@ -7,12 +9,12 @@ use PHPUnit\Framework\TestCase;
 use Utopia\Compression\Algorithms\Snappy;
 
 #[RequiresPhpExtension('snappy')]
-class SnappyTest extends TestCase
+final class SnappyTest extends TestCase
 {
     /**
      * @var Snappy
      */
-    protected $object = null;
+    protected $object;
 
     public function setUp(): void
     {
@@ -21,12 +23,12 @@ class SnappyTest extends TestCase
 
     public function tearDown(): void {}
 
-    public function testName()
+    public function testName(): void
     {
-        $this->assertEquals($this->object->getName(), 'snappy');
+        $this->assertEquals('snappy', $this->object->getName());
     }
 
-    public function testCompressDecompressWithText()
+    public function testCompressDecompressWithText(): void
     {
         $demo = 'This is a demo string';
         $demoSize = mb_strlen($demo, '8bit');
@@ -35,13 +37,13 @@ class SnappyTest extends TestCase
 
         $dataSize = mb_strlen($data, '8bit');
 
-        $this->assertEquals(21, $demoSize);
-        $this->assertEquals(23, $dataSize);
+        $this->assertSame(21, $demoSize);
+        $this->assertSame(23, $dataSize);
 
         $this->assertEquals($this->object->decompress($data), $demo);
     }
 
-    public function testCompressDecompressWithJPGImage()
+    public function testCompressDecompressWithJPGImage(): void
     {
         $demo = file_get_contents(__DIR__ . '/../../resources/disk-a/kitten-1.jpg');
         $demoSize = mb_strlen($demo, '8bit');
@@ -49,18 +51,18 @@ class SnappyTest extends TestCase
         $data = $this->object->compress($demo);
         $dataSize = mb_strlen($data, '8bit');
 
-        $this->assertEquals(599639, $demoSize);
-        $this->assertEquals(599504, $dataSize);
+        $this->assertSame(599639, $demoSize);
+        $this->assertSame(599504, $dataSize);
 
         $this->assertGreaterThan($dataSize, $demoSize);
 
         $data = $this->object->decompress($data);
         $dataSize = mb_strlen($data, '8bit');
 
-        $this->assertEquals(599639, $dataSize);
+        $this->assertSame(599639, $dataSize);
     }
 
-    public function testCompressDecompressWithPNGImage()
+    public function testCompressDecompressWithPNGImage(): void
     {
         $demo = file_get_contents(__DIR__ . '/../../resources/disk-b/kitten-1.png');
         $demoSize = mb_strlen($demo, '8bit');
@@ -68,14 +70,14 @@ class SnappyTest extends TestCase
         $data = $this->object->compress($demo);
         $dataSize = mb_strlen($data, '8bit');
 
-        $this->assertEquals(3038056, $demoSize);
-        $this->assertEquals(3038200, $dataSize);
+        $this->assertSame(3038056, $demoSize);
+        $this->assertSame(3038200, $dataSize);
 
         $this->assertGreaterThan($demoSize, $dataSize);
 
         $data = $this->object->decompress($data);
         $dataSize = mb_strlen($data, '8bit');
 
-        $this->assertEquals(3038056, $dataSize);
+        $this->assertSame(3038056, $dataSize);
     }
 }

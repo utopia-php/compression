@@ -6,9 +6,6 @@ use Utopia\Compression\Compression;
 
 class GZIP extends Compression
 {
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return Compression::GZIP;
@@ -21,9 +18,6 @@ class GZIP extends Compression
      * (http://stackoverflow.com/a/621987/2299554)
      *
      * @see http://php.net/manual/en/function.gzencode.php
-     *
-     * @param  string  $data
-     * @return string
      */
     public function compress(string $data): string
     {
@@ -32,9 +26,6 @@ class GZIP extends Compression
 
     /**
      * Decompress.
-     *
-     * @param  string  $data
-     * @return string
      */
     public function decompress(string $data): string
     {
@@ -43,8 +34,6 @@ class GZIP extends Compression
 
     /**
      * Check if the algorithm is supported.
-     *
-     * @return bool
      */
     public static function isSupported(): bool
     {

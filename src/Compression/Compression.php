@@ -25,19 +25,13 @@ abstract class Compression
 
     public const ZSTD = 'zstd';
 
-    public function __construct() {}
-
     /**
      * Return the name of compression algorithm.
-     *
-     * @return string
      */
     abstract public function getName(): string;
 
     /**
      * Return the id of compression algorithm used in content-encoding and accept-encoding headers.
-     *
-     * @return string
      */
     public function getContentEncoding(): string
     {
@@ -62,41 +56,26 @@ abstract class Compression
 
     /**
      * Return true if the compression algorithm is supported.
-     *
-     * @return bool
      */
     abstract public static function isSupported(): bool;
 
     /**
      * Create a compression algorithm from the name.
-     *
-     * @param  string  $name
      */
     public static function fromName(string $name): ?Compression
     {
         $name = strtolower($name);
 
-        switch ($name) {
-            case Compression::BROTLI:
-            case 'br':
-                return new Algorithms\Brotli();
-            case Compression::DEFLATE:
-                return new Algorithms\Deflate();
-            case Compression::GZIP:
-                return new Algorithms\GZIP();
-            case Compression::LZ4:
-                return new Algorithms\LZ4();
-            case Compression::SNAPPY:
-                return new Algorithms\Snappy();
-            case Compression::XZ:
-                return new Algorithms\XZ();
-            case Compression::ZSTD:
-                return new Algorithms\Zstd();
-            case Compression::NONE:
-            case Compression::IDENTITY:
-            default:
-                return null;
-        }
+        return match ($name) {
+            Compression::BROTLI, 'br' => new Algorithms\Brotli(),
+            Compression::DEFLATE => new Algorithms\Deflate(),
+            Compression::GZIP => new Algorithms\GZIP(),
+            Compression::LZ4 => new Algorithms\LZ4(),
+            Compression::SNAPPY => new Algorithms\Snappy(),
+            Compression::XZ => new Algorithms\XZ(),
+            Compression::ZSTD => new Algorithms\Zstd(),
+            default => null,
+        };
     }
 
     /**
@@ -106,15 +85,14 @@ abstract class Compression
      *      - [;q=<weight>] is an optional quality value from 0 to 1, indicating preference (1 being the highest)
      * @param  array  $supported List of supported compression algorithms, if not provided, the default list will be used
      *  The default list is [zstd, br, gzip, deflate, none, identity]
-     * @return Compression|null
      */
     public static function fromAcceptEncoding(string $acceptEncoding, array $supported = []): ?Compression
     {
-        if (empty($acceptEncoding)) {
+        if ($acceptEncoding === '' || $acceptEncoding === '0') {
             return null;
         }
 
-        if (empty($supported)) {
+        if ($supported === []) {
             $supported = [
                 self::ZSTD => Algorithms\Zstd::isSupported(),
                 self::BROTLI => Algorithms\Brotli::isSupported(),
@@ -123,11 +101,9 @@ abstract class Compression
                 self::NONE => true,
                 self::IDENTITY => true,
             ];
-        } else {
+        } elseif (array_is_list($supported)) {
             // Convert flat array to associative array
-            if (array_is_list($supported)) {
-                $supported = array_fill_keys($supported, true);
-            }
+            $supported = array_fill_keys($supported, true);
         }
 
         // Map encoding aliases to canonical names
@@ -135,10 +111,10 @@ abstract class Compression
             'br' => self::BROTLI,
         ];
 
-        $encodings = array_map('trim', explode(',', $acceptEncoding));
-        $encodings = array_map('strtolower', $encodings);
+        $encodings = array_map(trim(...), explode(',', $acceptEncoding));
+        $encodings = array_map(strtolower(...), $encodings);
 
-        $encodings = array_map(function ($encoding) use ($aliases) {
+        $encodings = array_map(function (string $encoding) use ($aliases): array {
             $parts = explode(';', $encoding);
             $encoding = $aliases[$parts[0]] ?? $parts[0];
             $quality = 1.0;
@@ -153,17 +129,13 @@ abstract class Compression
             ];
         }, $encodings);
 
-        $encodings = array_filter($encodings, function ($encoding) use ($supported) {
-            return isset($supported[$encoding['encoding']]) && $supported[$encoding['encoding']];
-        });
+        $encodings = array_filter($encodings, fn(array $encoding): bool => isset($supported[$encoding['encoding']]) && $supported[$encoding['encoding']]);
 
-        if (empty($encodings)) {
+        if ($encodings === []) {
             return null;
         }
 
-        usort($encodings, function ($a, $b) {
-            return $b['quality'] <=> $a['quality'];
-        });
+        usort($encodings, fn(array $a, array $b): int => $b['quality'] <=> $a['quality']);
 
         return self::fromName($encodings[0]['encoding']);
     }

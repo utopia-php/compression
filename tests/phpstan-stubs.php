@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Symbol stubs for optional extensions, so phpstan can analyse the adapters
  * on hosts where the extension is not installed. Never autoloaded.

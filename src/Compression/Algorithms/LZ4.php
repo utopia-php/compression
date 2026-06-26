@@ -6,24 +6,18 @@ use Utopia\Compression\Compression;
 
 class LZ4 extends Compression
 {
-    /**
-     * Compression level from 0 up to a current max of 12.
-     * Recommended values are between 4 and 9.
-     *
-     * Default value is 0, Not high compression mode.
-     */
-    protected int $level = 0;
-
-    public function __construct(int $level = 0)
-    {
-        parent::__construct();
-        $this->level = $level;
-    }
+    public function __construct(
+        /**
+         * Compression level from 0 up to a current max of 12.
+         * Recommended values are between 4 and 9.
+         *
+         * Default value is 0, Not high compression mode.
+         */
+        protected int $level = 0,
+    ) {}
 
     /**
      * Get the compression level.
-     *
-     * @return int
      */
     public function getLevel(): int
     {
@@ -34,9 +28,6 @@ class LZ4 extends Compression
      * Set the compression level.
      *
      * Allow values from 0 up to a current max of 12.
-     *
-     * @param  int  $level
-     * @return void
      */
     public function setLevel(int $level): void
     {
@@ -48,8 +39,6 @@ class LZ4 extends Compression
 
     /**
      * Get the name of the algorithm.
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -58,9 +47,6 @@ class LZ4 extends Compression
 
     /**
      * Compress.
-     *
-     * @param  string  $data
-     * @return string
      */
     public function compress(string $data): string
     {
@@ -69,9 +55,6 @@ class LZ4 extends Compression
 
     /**
      * Decompress.
-     *
-     * @param  string  $data
-     * @return string
      */
     public function decompress(string $data): string
     {
@@ -80,8 +63,6 @@ class LZ4 extends Compression
 
     /**
      * Check if the algorithm is supported.
-     *
-     * @return bool
      */
     public static function isSupported(): bool
     {

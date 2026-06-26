@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Utopia\Tests\Compression;
 
 use PHPUnit\Framework\TestCase;
@@ -10,9 +12,9 @@ use Utopia\Compression\Algorithms\XZ;
 use Utopia\Compression\Algorithms\Zstd;
 use Utopia\Compression\Compression;
 
-class CompressionTest extends TestCase
+final class CompressionTest extends TestCase
 {
-    public function testFromName()
+    public function testFromName(): void
     {
         $this->assertEquals(new Brotli(), Compression::fromName('brotli'));
         $this->assertEquals(new Snappy(), Compression::fromName('snappy'));
@@ -21,7 +23,7 @@ class CompressionTest extends TestCase
         $this->assertEquals(null, Compression::fromName('unknown'));
     }
 
-    public function testFromAcceptEncoding()
+    public function testFromAcceptEncoding(): void
     {
         $this->assertEquals(new Brotli(), Compression::fromAcceptEncoding('br'));
 

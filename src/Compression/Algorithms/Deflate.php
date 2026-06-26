@@ -8,9 +8,6 @@ class Deflate extends Compression
 {
     private int $level = 6;
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return Compression::DEFLATE;
@@ -18,9 +15,6 @@ class Deflate extends Compression
 
     /**
      * Compress.
-     *
-     * @param  string  $data
-     * @return string
      */
     public function compress(string $data): string
     {
@@ -29,9 +23,6 @@ class Deflate extends Compression
 
     /**
      * Decompress.
-     *
-     * @param  string  $data
-     * @return string
      */
     public function decompress(string $data): string
     {
@@ -40,8 +31,6 @@ class Deflate extends Compression
 
     /**
      * Check if the algorithm is supported.
-     *
-     * @return bool
      */
     public static function isSupported(): bool
     {

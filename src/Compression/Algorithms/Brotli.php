@@ -10,9 +10,6 @@ class Brotli extends Compression
 
     protected int $mode = BROTLI_GENERIC;
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return Compression::BROTLI;
@@ -20,8 +17,6 @@ class Brotli extends Compression
 
     /**
      * Return the id of compression algorithm used in content-encoding and accept-encoding headers.
-     *
-     * @return string
      */
     public function getContentEncoding(): string
     {
@@ -30,8 +25,6 @@ class Brotli extends Compression
 
     /**
      * Get the compression level.
-     *
-     * @return int
      */
     public function getLevel(): int
     {
@@ -76,9 +69,6 @@ class Brotli extends Compression
      * Set the compression level.
      *
      * Allow values from 0 up to a current max of 11.
-     *
-     * @param  int  $level
-     * @return void
      */
     public function setLevel(int $level): void
     {
@@ -92,9 +82,6 @@ class Brotli extends Compression
 
     /**
      * Compress.
-     *
-     * @param  string  $data
-     * @return string
      */
     public function compress(string $data): string
     {
@@ -103,9 +90,6 @@ class Brotli extends Compression
 
     /**
      * Decompress.
-     *
-     * @param  string  $data
-     * @return string
      */
     public function decompress(string $data): string
     {
@@ -114,8 +98,6 @@ class Brotli extends Compression
 
     /**
      * Check if the algorithm is supported.
-     *
-     * @return bool
      */
     public static function isSupported(): bool
     {
