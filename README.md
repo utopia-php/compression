@@ -11,14 +11,14 @@ Utopia Compression is simple and lite library for managing file compression. It 
 This library is part of the [Utopia Framework](https://github.com/utopia-php/framework) project.
 
 
-## Getting Started
+## Getting started
 
-Install using composer:
+Install using Composer:
 ```bash
 composer require utopia-php/compression
 ```
 
-## System Requirements
+## System requirements
 
 Utopia Framework requires PHP 8.1 or later. We recommend using the latest PHP version whenever possible.
 
